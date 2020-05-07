@@ -9,7 +9,7 @@ After cloning this repo, `cd` into this directory:
 
 ```
 git clone git@github.com:Designed-Platform/designedbot-slack.git
-cd designedbot-slac
+cd designedbot-slack
 ```
 
 Then install the dependencies:
