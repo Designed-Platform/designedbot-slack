@@ -25,7 +25,15 @@ export const buildSlackMessageFromJobs = jobs => {
 
 function buildMessageBlock(job) {
 
-  let text = `*${job.title}*\n${job.description}\nLocation: ${job.location}\n<${job.url}|View job>`
+  let companyText = '';
+  if (job.company) {
+    companyText = `Company: ${job.company.name} | Location: ${job.company.location}`
+  }
+
+  let remoteFriendlyText = job.remoteFriendly? ":heavy_check_mark:" : ":heavy_multiplication_x:";
+
+  let text = `*${job.title}*\n${companyText}\nRemote friendly: ${remoteFriendlyText}\n<${job.url}|View job>`
+
 
   let result = {
     type: "section",
