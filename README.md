@@ -22,7 +22,7 @@ Then you need to copy `env.example` to `.env`:
 cp env.example .env
 ```
 
-And fill the value fo `WEBHOOK_URL` it. To get the value for `WEBHOOK_URL`, visit settings of the Slack app that you connected. Check out Slack's [incoming webhooks](https://api.slack.com/messaging/webhooks) docs for more info.
+And fill the value for `API_URL` and `WEBHOOK_URL` it. To get the value for `WEBHOOK_URL`, visit settings of the Slack app that you connected. Check out Slack's [incoming webhooks](https://api.slack.com/messaging/webhooks) docs for more info.
 
 To run this locally, run this:
 ```

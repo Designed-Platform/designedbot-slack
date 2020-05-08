@@ -16,7 +16,8 @@ provider:
   stage: dev
   region: us-east-1
   environment:
-    WEBHOOK_URL: ${env:SAMPLE_ENV_VAR}
+    WEBHOOK_URL: ${env:WEBHOOK_URL}
+    API_URL: ${env:API_URL}
 
 custom:
   bundle:
@@ -26,6 +27,6 @@ functions:
   fetchJobs:
     handler: handler.hello
     events:
-      - http:
-          path: hello
-          method: get
+      - schedule:
+          rate: cron(0 9 * * ? *)
+          enabled: true

@@ -24,11 +24,10 @@ export const getRecentJobsFromDesignedSite = async () => {
       }
   `
 
- // const GRAPHQL_URL = 'https://api.designed.org/graphql'
-  const GRAPHQL_URL = 'https://staging.api.designed.org/graphql'
+  const url = process.env.API_URL + '/graphql';
 
   const response = await axios({
-    url: GRAPHQL_URL,
+    url,
     method: 'post',
     data: {
       query: getAllJobsQuery
