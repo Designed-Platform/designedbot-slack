@@ -1,4 +1,6 @@
 # NOTE: update this with your service name
+org: designed
+app: designedbot-slack
 service: designedbot-slack
 
 # Create an optimized package for our functions 
