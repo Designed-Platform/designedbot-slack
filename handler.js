@@ -5,12 +5,13 @@ export const hello = async (event, context) => {
 
   const jobs = await api.getRecentJobsFromDesignedSite();
 
-  console.log(jobs);
+  console.log('showing these jobs', jobs);
   console.log('=========')
 
-  const jobsMessage = buildSlackMessageFromJobs(jobs)
-  
-  await api.sendJobsToSlackChannel(jobsMessage)
+  if (jobs.legnth) {
+    const jobsMessage = buildSlackMessageFromJobs(jobs)
+    await api.sendJobsToSlackChannel(jobsMessage)
+  }
 
   return {
     statusCode: 200,

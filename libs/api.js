@@ -37,6 +37,8 @@ export const getRecentJobsFromDesignedSite = async () => {
   console.log(response.data.data.getAllJobs[0])
 
   const jobs = response.data.data.getAllJobs
+
+  const HOURS_INTERVAL = 1;
   
   return jobs.map(job => {
     let result = {
@@ -50,7 +52,9 @@ export const getRecentJobsFromDesignedSite = async () => {
       result.image_url = job.postedBy.avatarUrl;
     }
     return result;
-  }).sort((a,b) => b.publishedOn - a.publishedOn).slice(0, 5)
+  }).filter(el => Date.now() - parseInt(el.publishedOn) * 1000 < HOURS_INTERVAL * 60 * 60 * 1000 )
+    .sort((a,b) => b.publishedOn - a.publishedOn)
+    .slice(0, 5)
 }
 
 export const sendJobsToSlackChannel = async (jobsMessage) => {
