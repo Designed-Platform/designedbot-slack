@@ -1,5 +1,5 @@
 # NOTE: update this with your service name
-service: designed-bot
+service: designedbot-slack
 
 # Create an optimized package for our functions 
 package:
