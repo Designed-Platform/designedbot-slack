@@ -1,5 +1,7 @@
 # NOTE: update this with your service name
-service: designed-bot
+org: designed
+app: designedbot-slack
+service: designedbot-slack
 
 # Create an optimized package for our functions 
 package:
@@ -11,13 +13,19 @@ plugins:
   - serverless-dotenv-plugin # Load .env as environment variables
 
 provider:
+  stage: ${opt:stage}
+  region: ${env:AWS_REGION}
   name: aws
   runtime: nodejs10.x
-  stage: dev
-  region: us-east-1
   environment:
     WEBHOOK_URL: ${env:WEBHOOK_URL}
     API_URL: ${env:API_URL}
+
+  deploymentPrefix: serverless
+  memorySize: 256
+  timeout: 30
+  logRetentionInDays: 14
+  versionFunctions: true
 
 custom:
   bundle:
