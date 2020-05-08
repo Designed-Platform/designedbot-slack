@@ -7,8 +7,9 @@ export const hello = async (event, context) => {
 
   console.log('showing these jobs', jobs);
   console.log('=========')
+  
 
-  if (jobs.legnth) {
+  if (jobs.length) {
     const jobsMessage = buildSlackMessageFromJobs(jobs)
     await api.sendJobsToSlackChannel(jobsMessage)
   }
