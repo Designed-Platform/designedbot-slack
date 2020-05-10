@@ -7,6 +7,17 @@ service: designedbot-slack
 package:
   individually: true
 
+custom:
+  bundle:
+    linting: false
+  api_urls:
+    production: ${env:PROD_API_URL}
+    stagging: ${env:STAGGING_API_URL}
+  webhook_urls:
+    production: ${env:PROD_WEBHOOK_URL}
+    stagging: ${env:STAGGING_WEBHOOK_URL}
+
+
 plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
@@ -18,8 +29,8 @@ provider:
   name: aws
   runtime: nodejs10.x
   environment:
-    WEBHOOK_URL: ${env:WEBHOOK_URL}
-    API_URL: ${env:API_URL}
+    WEBHOOK_URL: ${self:custom.webhook_urls.${opt:stage}}
+    API_URL: ${self:custom.api_urls.${opt:stage}}
 
   deploymentPrefix: serverless
   memorySize: 256
@@ -27,9 +38,7 @@ provider:
   logRetentionInDays: 14
   versionFunctions: true
 
-custom:
-  bundle:
-    linting: false
+
 
 functions:
   fetchJobs:
