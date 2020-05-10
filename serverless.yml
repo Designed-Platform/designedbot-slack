@@ -14,7 +14,7 @@ plugins:
 
 provider:
   stage: dev
-  region: ${env:AWS_REGION}
+  region: us-east-1
   name: aws
   runtime: nodejs10.x
   environment:
@@ -35,6 +35,7 @@ functions:
   fetchJobs:
     handler: handler.hello
     events:
+      - http: get postJobsToSlack
       - schedule:
           rate: cron(40 * * * ? *)
           enabled: true

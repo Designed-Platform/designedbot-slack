@@ -34,8 +34,6 @@ export const getRecentJobsFromDesignedSite = async () => {
     }
   })
 
-  console.log(response.data.data.getAllJobs[0])
-
   const jobs = response.data.data.getAllJobs
 
   const HOURS_INTERVAL = 1;
