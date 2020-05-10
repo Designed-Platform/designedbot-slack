@@ -38,3 +38,4 @@ functions:
       - schedule:
           rate: cron(40 * * * ? *)
           enabled: true
+
