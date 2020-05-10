@@ -43,16 +43,25 @@ export const buildSlackMessageFromJobs = jobs => {
   return result;
 }
 
+const getPublishedOnText = timestamp => {
+  let t = parseInt(timestamp);
+  if (typeof t !== 'number') return '';
+  const d = new Date(t * 1000)
+  return ":clock9:" + d.toUTCString() + ' | '
+}
+
 function buildMessageBlock(job) {
 
   let companyText = '';
   if (job.company) {
-    companyText = `Company: ${job.company.name} | Location: ${job.company.location}`
+    companyText = `Company: ${job.company.name} | :world_map:Location: ${job.company.location}`
   }
 
   let remoteFriendlyText = job.remoteFriendly? ":heavy_check_mark:" : ":heavy_multiplication_x:";
 
-  let text = `*${job.title}*\n${companyText}\n<${job.url}|View job>`
+  const publishedOnText = getPublishedOnText(job.publishedOn)
+
+  let text = `*${job.title}*\n${companyText}\n${publishedOnText}<${job.url}|View job>`
 
   let result = {
     type: "section",
@@ -72,3 +81,4 @@ function buildMessageBlock(job) {
 
   return result;
 }
+

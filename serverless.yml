@@ -24,8 +24,8 @@ plugins:
   - serverless-dotenv-plugin # Load .env as environment variables
 
 provider:
-  stage: ${opt:stage}
-  region: ${env:AWS_REGION}
+  stage: dev
+  region: us-east-1
   name: aws
   runtime: nodejs10.x
   environment:
@@ -44,6 +44,7 @@ functions:
   fetchJobs:
     handler: handler.hello
     events:
+      - http: get postJobsToSlack
       - schedule:
           rate: cron(40 * * * ? *)
           enabled: true
