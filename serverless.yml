@@ -12,10 +12,10 @@ custom:
     linting: false
   api_urls:
     production: ${env:PROD_API_URL}
-    stagging: ${env:STAGGING_API_URL}
+    staging: ${env:STAGGING_API_URL}
   webhook_urls:
     production: ${env:PROD_WEBHOOK_URL}
-    stagging: ${env:STAGGING_WEBHOOK_URL}
+    staging: ${env:STAGGING_WEBHOOK_URL}
 
 
 plugins:
