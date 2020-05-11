@@ -52,14 +52,17 @@ function verifyCall(data) {
  * @param {Object} message The Slack message object
  */
 async function handleMessage(message) {
-  // TODO: check if it was the bot who joined.
-  if (message.type === "member_joined_channel") {
+  
+  // this is Bot User OAuth Access Token
+  const token = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
+  const web = new WebClient(token);
+
+  const auth =  await web.auth.test()
+  console.log('auth.user_id', auth.user_id)
+  console.log('message.user', message.user)
+
+  if (message.type === "member_joined_channel" && auth.user_id === message.user) {
     const conversationId = message.channel;
-
-    // this is Bot User OAuth Access Token
-    const token = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
-
-    const web = new WebClient(token);
 
     const result = await web.chat.postMessage({
       text: "Hello world!",
