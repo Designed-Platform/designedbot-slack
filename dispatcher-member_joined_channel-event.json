@@ -1,0 +1,4 @@
+{
+  "headers": [],
+  "body": "{\"type\":\"event_callback\",\"event\":{\"type\":\"member_joined_channel\",\"user\":\"U013LJBPC3E\",\"channel\":\"C8DDP8M8V\"}}"
+}

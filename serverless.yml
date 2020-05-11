@@ -1,6 +1,4 @@
 # NOTE: update this with your service name
-org: designed
-app: designedbot-slack
 service: designedbot-slack
 
 # Create an optimized package for our functions 
@@ -31,6 +29,8 @@ provider:
   environment:
     WEBHOOK_URL: ${self:custom.webhook_urls.${opt:stage}}
     API_URL: ${self:custom.api_urls.${opt:stage}}
+    SIGNING_SECRET: ${env:SIGNING_SECRET}
+    BOT_USER_OAUTH_ACCESS_TOKEN: ${env:BOT_USER_OAUTH_ACCESS_TOKEN}
 
   deploymentPrefix: serverless
   memorySize: 256
@@ -38,14 +38,16 @@ provider:
   logRetentionInDays: 14
   versionFunctions: true
 
-
-
 functions:
+  dispatcher:
+    handler: bot.main
+    events:
+      - httpApi: POST /event-handler
   fetchJobs:
     handler: handler.hello
     events:
       - http: get postJobsToSlack
-      - schedule:
-          rate: cron(40 * * * ? *)
-          enabled: true
+        #    - schedule:
+        #        rate: cron(40 * * * ? *)
+        #        enabled: true
 
