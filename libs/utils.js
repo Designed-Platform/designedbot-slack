@@ -54,14 +54,14 @@ function buildMessageBlock(job) {
 
   let companyText = '';
   if (job.company) {
-    companyText = `Company: ${job.company.name} | :world_map:Location: ${job.company.location}`
+    companyText = `${job.company.name}\n${job.company.location}`
   }
 
   let remoteFriendlyText = job.remoteFriendly? ":heavy_check_mark:" : ":heavy_multiplication_x:";
 
   const publishedOnText = getPublishedOnText(job.publishedOn)
 
-  let text = `*${job.title}*\n${companyText}\n${publishedOnText}<${job.url}|View job>`
+  let text = `*${job.title}, ${job.type}*\n${companyText}\n<${job.url}|View Job>`
 
   let result = {
     type: "section",
@@ -75,7 +75,7 @@ function buildMessageBlock(job) {
     result.accessory = {
       type: "image",
       image_url: job.company.logo,
-      alt_text: "alt text for image"
+      alt_text: companyText
     }
   }
 
