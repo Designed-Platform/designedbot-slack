@@ -1,13 +1,13 @@
 export const buildSlackMessageFromJobs = jobs => {
 
   let result = {
-    "text": "Here are job posts I've recently run into.",
+    "text": "Here are some recent design jobs I've found",
     "blocks": [
       {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "Here are job posts I've recently run into.\n\n *Check them out:*"
+          "text": "Here are some recent design jobs I've found.\n\n *Check them out:*"
         }
       },
       {
@@ -25,7 +25,7 @@ export const buildSlackMessageFromJobs = jobs => {
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "You can find more jobs at Designed platform"
+				"text": "You can find more design jobs and filter/search them on Designed"
 			},
 			"accessory": {
 				"type": "button",

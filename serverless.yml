@@ -39,15 +39,17 @@ provider:
   versionFunctions: true
 
 functions:
+  # This function is WIP (preparing our bot for distribution).
   dispatcher:
     handler: bot.main
     events:
       - httpApi: POST /event-handler
+  # This function fetches jobs via webhooks. It's ready.
   fetchJobs:
     handler: handler.hello
     events:
       - http: get postJobsToSlack
-        #    - schedule:
-        #        rate: cron(40 * * * ? *)
-        #        enabled: true
+      - schedule:
+          rate: cron(40 * * * ? *)
+          enabled: true
 
