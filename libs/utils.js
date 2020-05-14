@@ -7,7 +7,7 @@ export const buildSlackMessageFromJobs = jobs => {
         "type": "section",
         "text": {
           "type": "mrkdwn",
-          "text": "Here are some recent design jobs I've found.\n\n *Check them out:*"
+          "text": "Here are some recent design jobs I've found."
         }
       },
       {
@@ -25,13 +25,13 @@ export const buildSlackMessageFromJobs = jobs => {
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "You can find more design jobs and filter/search them on Designed"
+				"text": "More jobs available at Designed"
 			},
 			"accessory": {
 				"type": "button",
 				"text": {
 					"type": "plain_text",
-					"text": "Go to Designed.org"
+					"text": "Visit Designed.org"
 				},
         "url" : "https://www.designed.org/jobs"
 			}
