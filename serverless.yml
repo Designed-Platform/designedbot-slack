@@ -50,6 +50,6 @@ functions:
     events:
       - http: get postJobsToSlack
       - schedule:
-          rate: cron(40 * * * ? *)
+          rate: cron(40 */3 * * ? *)
           enabled: true
 

@@ -36,7 +36,7 @@ export const getRecentJobsFromDesignedSite = async () => {
 
   const jobs = response.data.data.getAllJobs
 
-  const HOURS_INTERVAL = 1;
+  const HOURS_INTERVAL = 3;
   
   return jobs.map(job => {
     let result = {
