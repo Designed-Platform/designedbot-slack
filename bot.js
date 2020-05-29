@@ -2,8 +2,6 @@ import { WebClient } from "@slack/web-api";
 
 export const main = async (event, context) => {
   const dataObject = JSON.parse(event.body);
-
-  console.log("event", event);
   console.log("event body", event.body);
 
   // The response we will return to Slack
@@ -49,9 +47,9 @@ function verifyCall(data) {
 /**
  * Process the message and executes an action based on the message received
  * @async
- * @param {Object} message The Slack message object
+ * @param {Object} event The Slack message object
  */
-async function handleMessage(message) {
+async function handleMessage(event) {
   
   // this is Bot User OAuth Access Token
   const token = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
@@ -59,10 +57,10 @@ async function handleMessage(message) {
 
   const auth =  await web.auth.test()
   console.log('auth.user_id', auth.user_id)
-  console.log('message.user', message.user)
+  console.log('event.user', event.user)
 
-  if (message.type === "member_joined_channel" && auth.user_id === message.user) {
-    const conversationId = message.channel;
+  if (event.type === "member_joined_channel" && auth.user_id === event.user) {
+    const conversationId = event.channel;
 
     const result = await web.chat.postMessage({
       text: "Hello world!",
@@ -73,5 +71,14 @@ async function handleMessage(message) {
     console.log(
       `Successfully send message ${result.ts} in conversation ${conversationId}`
     );
+  }
+
+  if (event.type === 'message') {
+    // TODO: try to check if a message is actually a job opportunity
+
+    const result = await web.chat.postMessage({
+      text: "Whould you like to share this job opportunity to other Slack communities? Your message: " + event.text,
+      channel: event.user, // send DM to user that posted a message to channel
+    });
   }
 }
