@@ -1,0 +1,4 @@
+{
+  "headers": [],
+  "body": "{ \"token\": \"zUZ7I5ZjcqClpELlS0PyCVTr\", \"team_id\": \"T8DDP8HB7\", \"api_app_id\": \"A013SK11M33\", \"event\": { \"client_msg_id\": \"a530399c-51d9-4f9b-a718-d5751e619d98\", \"type\": \"message\", \"text\": \"looking for node/js\", \"user\": \"U8CPP6ADP\", \"ts\": \"1590746313.002600\", \"team\": \"T8DDP8HB7\", \"blocks\": [ { \"type\": \"rich_text\", \"block_id\": \"eNBdm\", \"elements\": [ { \"type\": \"rich_text_section\", \"elements\": [ { \"type\": \"text\", \"text\": \"need node/js\" } ] } ] } ], \"channel\": \"C8DDP8M8V\", \"event_ts\": \"1590746313.002600\", \"channel_type\": \"channel\" }, \"type\": \"event_callback\", \"event_id\": \"Ev014A133EKY\", \"event_time\": 1590746313, \"authed_users\": [ \"U8CPP6ADP\" ] }"
+}

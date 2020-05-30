@@ -1,38 +1,39 @@
 import { WebClient } from "@slack/web-api";
+import qs from 'querystring';
 
 export const main = async (event, context) => {
-  const dataObject = JSON.parse(event.body);
-  console.log("event body", event.body);
+  const requestPayload = payloadFromBase64(event.body)
+  console.log('requestPayload', requestPayload)
 
   // The response we will return to Slack
   let response = {
     statusCode: 200,
-    body: {},
-    // Tell slack we don't want retries, to avoid multiple triggers of this lambda
-    headers: { "X-Slack-No-Retry": 1 },
+    body: "",
   };
 
-  try {
-    // If the Slack retry header is present, ignore the call to avoid triggering the lambda multiple times
-    if (!("X-Slack-Retry-Num" in event.headers)) {
-      switch (dataObject.type) {
-        case "url_verification":
-          response.body = verifyCall(dataObject);
-          break;
-        case "event_callback":
-          await handleMessage(dataObject.event);
-          response.body = { ok: true };
-          break;
-        default:
-          (response.statusCode = 400), (response.body = "Empty request");
-          break;
-      }
-    }
-  } catch (err) {
-    (response.statusCode = 500), (response.body = JSON.stringify(err));
-  } finally {
-    return response;
-  }
+  return response;
+
+//  try {
+//    // If the Slack retry header is present, ignore the call to avoid triggering the lambda multiple times
+//    if (!("X-Slack-Retry-Num" in event.headers)) {
+//      switch (dataObject.type) {
+//        case "url_verification":
+//          response.body = verifyCall(dataObject);
+//          break;
+//        case "event_callback":
+//          await handleMessage(dataObject.event);
+//          response.body = { ok: true };
+//          break;
+//        default:
+//          (response.statusCode = 400), (response.body = "Empty request");
+//          break;
+//      }
+//    }
+//  } catch (err) {
+//    (response.statusCode = 500), (response.body = JSON.stringify(err));
+//  } finally {
+//    return response;
+//  }
 };
 
 function verifyCall(data) {
@@ -124,5 +125,11 @@ function messageIsJobPosting (text = '') {
     if (text.toLowerCase().includes(el)) return true;
   }
   return false;
+}
+
+function payloadFromBase64 (data) {
+  let queryString = Buffer.from(data, 'base64').toString('ascii')
+  let json = qs.parse(queryString)
+  return JSON.parse(json.payload)  
 }
 
