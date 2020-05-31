@@ -1,5 +1,5 @@
 import { WebClient } from "@slack/web-api";
-import axios from 'axios';
+import { sendDismissMessage} from './libs/api';
 import { modalView } from './libs/utils';
 import qs from 'querystring';
 
@@ -15,14 +15,27 @@ const openModal = async payload => await web.views.open({
 
 export const main = async (event, context) => {
   const requestPayload = payloadFromBase64(event.body)
-  console.log('requestPayload', requestPayload)
+  console.log('requestPayload', JSON.stringify(requestPayload))
 
-//  await axios.post(requestPayload.response_url, {
-//    text: "Thanks for your message",
-//    replace_original: true
-//  })
-
-  await openModal(requestPayload);
+  switch (requestPayload.type) {
+    case 'block_actions':
+      if (Array.isArray(requestPayload.actions) && requestPayload.actions.length) {
+        switch (requestPayload.actions[0].text.text) {
+          case "Let's do this":
+            await openModal(requestPayload);
+            // replce with Thank you message
+            break;
+          case "No":
+            await sendDismissMessage(requestPayload)
+            break;
+        }
+      }
+      break;
+    case 'view_submission':
+      // save to db
+      console.log('view_submission')
+      break;
+  }
 
   // Acknowledge the response
   let response = {
@@ -70,8 +83,6 @@ function verifyCall(data) {
  * @param {Object} event The Slack message object
  */
 async function handleMessage(event) {
-  
-
   const auth =  await web.auth.test()
   console.log('auth.user_id', auth.user_id)
   console.log('event.user', event.user)

@@ -74,11 +74,6 @@ async function handleMessage(event) {
   }
 
   if (event.type === 'message' && messageIsJobPosting(event.text)) {
-
-
-
-    // 
-
     const result = await web.chat.postEphemeral({
       channel: event.channel,
       user: event.user,
@@ -95,7 +90,7 @@ async function handleMessage(event) {
               "text": "Let's do this"
             },
             "style": "primary",
-            "value": "click_me_123"
+            "value": event.text
           },
           {
             "type": "button",

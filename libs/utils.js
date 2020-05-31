@@ -113,8 +113,15 @@ export const modalView = payload => {
       },
       {
         "type": "input",
+        "block_id": "job_description",
         "element": {
           "type": "plain_text_input",
+          "action_id": "job_description",
+          "initial_value": payload.actions[0].value,
+          "placeholder": {
+            "type": "plain_text",
+            "text": "Enter your job description"
+          },
           "multiline": true
         },
         "label": {

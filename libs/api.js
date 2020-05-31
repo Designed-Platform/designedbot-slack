@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+export const sendDismissMessage = async payload =>
+  await axios.post(payload.response_url, {
+    text: "Ok, I'm dismissing it then",
+    replace_original: true
+  })
+
 export const getRecentJobsFromDesignedSite = async () => {
   const getAllJobsQuery = `{
         getAllJobs(isAvailable: true) {
