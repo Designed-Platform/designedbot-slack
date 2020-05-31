@@ -1,11 +1,30 @@
 import { WebClient } from "@slack/web-api";
+import axios from 'axios';
+import { modalView } from './libs/utils';
 import qs from 'querystring';
+
+// this is Bot User OAuth Access Token
+const token = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
+const web = new WebClient(token);
+
+const openModal = async payload => await web.views.open({
+    trigger_id: payload.trigger_id,
+    view: modalView(payload)
+  });
+  
 
 export const main = async (event, context) => {
   const requestPayload = payloadFromBase64(event.body)
   console.log('requestPayload', requestPayload)
 
-  // The response we will return to Slack
+//  await axios.post(requestPayload.response_url, {
+//    text: "Thanks for your message",
+//    replace_original: true
+//  })
+
+  await openModal(requestPayload);
+
+  // Acknowledge the response
   let response = {
     statusCode: 200,
     body: "",
@@ -52,9 +71,6 @@ function verifyCall(data) {
  */
 async function handleMessage(event) {
   
-  // this is Bot User OAuth Access Token
-  const token = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
-  const web = new WebClient(token);
 
   const auth =  await web.auth.test()
   console.log('auth.user_id', auth.user_id)

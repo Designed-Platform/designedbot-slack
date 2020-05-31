@@ -1,5 +1,4 @@
 export const buildSlackMessageFromJobs = jobs => {
-
   let result = {
     "text": "Here are some recent design jobs I've found",
     "blocks": [
@@ -81,4 +80,177 @@ function buildMessageBlock(job) {
 
   return result;
 }
+
+export const modalView = payload => {
+  return {
+    "type": "modal",
+    "title": {
+      "type": "plain_text",
+      "text": "Job Opportunity",
+      "emoji": true
+    },
+    "submit": {
+      "type": "plain_text",
+      "text": "Submit",
+      "emoji": true
+    },
+    "close": {
+      "type": "plain_text",
+      "text": "Cancel",
+      "emoji": true
+    },
+    "blocks": [
+      {
+        "type": "section",
+        "text": {
+          "type": "plain_text",
+          "emoji": true,
+          "text": "Please fill your opportunity details:"
+        }
+      },
+      {
+        "type": "divider"
+      },
+      {
+        "type": "input",
+        "element": {
+          "type": "plain_text_input",
+          "multiline": true
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "Job description",
+          "emoji": true
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "plain_text",
+            "text": "Post here your job description details",
+            "emoji": true
+          }
+        ]
+      },
+      {
+        "type": "input",
+        "element": {
+          "type": "plain_text_input"
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "Company name",
+          "emoji": true
+        }
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*Filters and categories*"
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "plain_text",
+            "text": "Filters would help candidates find your opportunity",
+            "emoji": true
+          }
+        ]
+      },
+      {
+        "type": "divider"
+      },
+      {
+        "type": "input",
+        "element": {
+          "type": "plain_text_input"
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "Location",
+          "emoji": true
+        }
+      },
+      {
+        "type": "input",
+        "element": {
+          "type": "checkboxes",
+          "options": [
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "Junior",
+                "emoji": true
+              },
+              "value": "value-0"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "Middle",
+                "emoji": true
+              },
+              "value": "value-1"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "Senior",
+                "emoji": true
+              },
+              "value": "value-2"
+            }
+          ]
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "Level",
+          "emoji": true
+        }
+      },
+      {
+        "type": "input",
+        "element": {
+          "type": "checkboxes",
+          "options": [
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "Full-time",
+                "emoji": true
+              },
+              "value": "value-0"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "Part-time",
+                "emoji": true
+              },
+              "value": "value-1"
+            },
+            {
+              "text": {
+                "type": "plain_text",
+                "text": "Remote friendly",
+                "emoji": true
+              },
+              "value": "value-2"
+            }
+          ]
+        },
+        "label": {
+          "type": "plain_text",
+          "text": "Availability",
+          "emoji": true
+        }
+      }
+    ]
+  }
+}
+
 
