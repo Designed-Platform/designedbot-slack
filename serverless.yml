@@ -44,6 +44,10 @@ functions:
     handler: bot.main
     events:
       - httpApi: POST /event-handler
+  sendJobToSeeker:
+    handler: sendJobToSeeker.main
+    events:
+      - httpApi: POST /sendJobToSeeker
   # This function fetches jobs via webhooks. It's ready.
   interact:
     handler: interact.main
@@ -53,7 +57,7 @@ functions:
     handler: handler.hello
     events:
       - http: get postJobsToSlack
-        #    - schedule:
-        #        rate: cron(40 */3 * * ? *)
-        #        enabled: true
+      - schedule:
+          rate: cron(40 */3 * * ? *)
+          enabled: true
 
