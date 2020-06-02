@@ -1,38 +1,71 @@
 import { WebClient } from "@slack/web-api";
+import { sendDismissMessage} from './libs/api';
+import { modalView } from './libs/utils';
+import qs from 'querystring';
+
+// this is Bot User OAuth Access Token
+const token = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
+const web = new WebClient(token);
+
+const openModal = async payload => await web.views.open({
+    trigger_id: payload.trigger_id,
+    view: modalView(payload)
+  });
+  
 
 export const main = async (event, context) => {
-  const dataObject = JSON.parse(event.body);
-  console.log("event body", event.body);
+  const requestPayload = payloadFromBase64(event.body)
+  console.log('requestPayload', JSON.stringify(requestPayload))
 
-  // The response we will return to Slack
+  switch (requestPayload.type) {
+    case 'block_actions':
+      if (Array.isArray(requestPayload.actions) && requestPayload.actions.length) {
+        switch (requestPayload.actions[0].text.text) {
+          case "Let's do this":
+            await openModal(requestPayload);
+            // replce with Thank you message
+            break;
+          case "No":
+            await sendDismissMessage(requestPayload)
+            break;
+        }
+      }
+      break;
+    case 'view_submission':
+      // save to db
+      console.log('view_submission')
+      break;
+  }
+
+  // Acknowledge the response
   let response = {
     statusCode: 200,
-    body: {},
-    // Tell slack we don't want retries, to avoid multiple triggers of this lambda
-    headers: { "X-Slack-No-Retry": 1 },
+    body: "",
   };
 
-  try {
-    // If the Slack retry header is present, ignore the call to avoid triggering the lambda multiple times
-    if (!("X-Slack-Retry-Num" in event.headers)) {
-      switch (dataObject.type) {
-        case "url_verification":
-          response.body = verifyCall(dataObject);
-          break;
-        case "event_callback":
-          await handleMessage(dataObject.event);
-          response.body = { ok: true };
-          break;
-        default:
-          (response.statusCode = 400), (response.body = "Empty request");
-          break;
-      }
-    }
-  } catch (err) {
-    (response.statusCode = 500), (response.body = JSON.stringify(err));
-  } finally {
-    return response;
-  }
+  return response;
+
+//  try {
+//    // If the Slack retry header is present, ignore the call to avoid triggering the lambda multiple times
+//    if (!("X-Slack-Retry-Num" in event.headers)) {
+//      switch (dataObject.type) {
+//        case "url_verification":
+//          response.body = verifyCall(dataObject);
+//          break;
+//        case "event_callback":
+//          await handleMessage(dataObject.event);
+//          response.body = { ok: true };
+//          break;
+//        default:
+//          (response.statusCode = 400), (response.body = "Empty request");
+//          break;
+//      }
+//    }
+//  } catch (err) {
+//    (response.statusCode = 500), (response.body = JSON.stringify(err));
+//  } finally {
+//    return response;
+//  }
 };
 
 function verifyCall(data) {
@@ -50,11 +83,6 @@ function verifyCall(data) {
  * @param {Object} event The Slack message object
  */
 async function handleMessage(event) {
-  
-  // this is Bot User OAuth Access Token
-  const token = process.env.BOT_USER_OAUTH_ACCESS_TOKEN;
-  const web = new WebClient(token);
-
   const auth =  await web.auth.test()
   console.log('auth.user_id', auth.user_id)
   console.log('event.user', event.user)
@@ -74,6 +102,11 @@ async function handleMessage(event) {
   }
 
   if (event.type === 'message' && messageIsJobPosting(event.text)) {
+
+
+
+    // 
+
     const result = await web.chat.postEphemeral({
       channel: event.channel,
       user: event.user,
@@ -90,7 +123,7 @@ async function handleMessage(event) {
               "text": "Let's do this"
             },
             "style": "primary",
-            "value": event.text
+            "value": "click_me_123"
           },
           {
             "type": "button",
@@ -119,5 +152,11 @@ function messageIsJobPosting (text = '') {
     if (text.toLowerCase().includes(el)) return true;
   }
   return false;
+}
+
+function payloadFromBase64 (data) {
+  let queryString = Buffer.from(data, 'base64').toString('ascii')
+  let json = qs.parse(queryString)
+  return JSON.parse(json.payload)  
 }
 
