@@ -1,6 +1,8 @@
 # designedbot-slack
 The DesignBot for slack keeps our community up to date with the latest news, jobs, events, etc...
 
+![Slack demo image](/designedBotExample.png)
+
 This project was bootstapped with [AnomalyInnovations/serverless-nodejs-starter](https://github.com/AnomalyInnovations/serverless-nodejs-starter)
 
 ## How to run it locally
